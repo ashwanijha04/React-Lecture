@@ -10,6 +10,7 @@ function App() {
     <div className="App">
       <Calculator/>
       <Toggle/>
+      <TestComponent name="Ashwani"/>
     </div>
   );
 }
