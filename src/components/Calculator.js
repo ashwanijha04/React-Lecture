@@ -27,31 +27,66 @@ function tryConvert(temperature, convert) {
     return <p>The water would not boil.</p>;
   }
 
-
   class Calculator extends React.Component {
     constructor(props) {
       super(props);
       this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
       this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
-      this.state = {temperature: '', scale: 'c'};
+      this.handleCssChange = this.handleCssChange.bind(this);
+      this.state = {temperature: '', scale: 'c', black: false};
+    }
+
+    handleCssChange(scale, temperature) {
+      if(temperature > 100 && scale=='c') {
+        this.setState(
+          {
+            black: true
+          }
+        )
+      } else if(temperature > 212 && scale=='f'){
+        this.setState({
+          black: true
+        })
+
+      }
+      else {
+        this.setState(
+          {
+            black: false
+          }
+        )
+      }
     }
   
     handleCelsiusChange(temperature) {
+      this.handleCssChange(this.state.scale, temperature)
       this.setState({scale: 'c', temperature});
     }
+
+
   
     handleFahrenheitChange(temperature) {
+      this.handleCssChange(this.state.scale, temperature)
       this.setState({scale: 'f', temperature});
     }
+
   
     render() {
+      // const bgColor = this.state.black ? "black-class": "yellowClass";
+
+      let bgColor = ""
+      if(this.state.black) {
+        bgColor = "black-class"
+      }else {
+        bgColor = "yellowClass"
+      }
       const scale = this.state.scale;
       const temperature = this.state.temperature;
       const celsius = scale === 'f' ? tryConvert(temperature, toCelsius) : temperature;
       const fahrenheit = scale === 'c' ? tryConvert(temperature, toFahrenheit) : temperature;
   
       return (
-        <div>
+        <div className={bgColor}>
           <TemperatureInput
             scale="c"
             temperature={celsius}
